@@ -1,0 +1,53 @@
+--- DOKUMENTACJA "get_meme" ---
+
+1. cel projektu
+
+	Aplikacja umożliwiająca tworzenie memów na podstawie pliku uploadowanego przez użytkownika, oraz tekstu wprowadzonego
+	w postaci stringa. Posiada możliwość wyboru miejsca wgrania tekstu na obrazku (top, bottom, dowolnie?)
+
+2. model danych (obiekty i relacje)
+	
+	Encje:
+		1. User -	
+			mail, pass, name, avatar_path, description, role, registered_at, (background_path?)
+		
+		2. Post -
+			file_path, title, likes, status, created_at, added_at
+		
+		3. PostComments - 
+			added_at, content
+			
+		4. Tag - 
+			name
+	
+	
+3. procesy w aplikacji
+
+        (TEXT + IMAGE = POST)
+
+	1. User - 
+		FOSUserBundle (register, login, logout, profile-edit, profile)
+	
+	2. Post - 
+		showPost, showAllPosts, addPost, editPost, deletePost
+		
+	3. Comment -
+		showComment, showAllPostComments, addComment, deleteComment, editComment,
+
+4. widoki
+
+	-mainPage
+	-addPostPage
+	-postPage
+	-postEditPage
+	-adminPage(admin)
+	
+	-registerUserPage
+	-userProfilePage
+	-userEditPage
+	
+	
+	
+	
+	
+	
