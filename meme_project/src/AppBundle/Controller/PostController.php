@@ -27,7 +27,6 @@ class PostController extends Controller
             // Generate a unique name for the file before saving it
             $fileName = uniqid() . '.' . $file->guessExtension();
 
-
             // Move the file to the directory where brochures are stored
             $file->move(
                 $this->getParameter('uploads') . "/user_" . $this->getUser()->getId(),
