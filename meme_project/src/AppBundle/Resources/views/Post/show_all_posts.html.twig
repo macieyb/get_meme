@@ -3,5 +3,17 @@
 {% block title %}AppBundle:Post:showAllPosts{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Post:showAllPosts page</h1>
+    <h1>Welcome to the Post:showAllPosts page</h1>
+    {% for post in posts %}
+        <div>
+            <h2>
+                <a href="{{ path('show_post', {"id":post.id}) }}">{{ post.title }}</a>
+            </h2>
+            <img src="{{ post.pathToFileFromWeb }}" alt="">
+            <p>Dodane przez: {{ post.user.username }}</p>
+            <p>Data dodania: {{ post.createdAt|date('Y-m-d') }}</p>
+            <p>Kategoria: {{ post.category.categoryName }}</p>
+            <p>Liczba lajków: {{ post.upvotes }}</p>
+        </div>
+    {% endfor %}
 {% endblock %}

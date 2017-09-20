@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
 use AppBundle\Form\PostType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ class PostController extends Controller
 {
     /**
      * @Route("/addPost", name="add_post")
+     * @Template("@App/Post/add_post.html.twig")
      */
     public function addPostAction(Request $request)
     {
@@ -37,32 +39,50 @@ class PostController extends Controller
             // instead of its contents
             $post->setFilePath($fileName);
 
-            // ... persist the $post variable or any other work
-
-            return $this->redirect($this->generateUrl('add_post'));
+            $post = $form->getData();
+            $post->setUser($this->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
         }
 
-        return $this->render('@App/Post/add_post.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return
+            [
+                'form' => $form->createView()
+            ];
     }
 
     /**
-     * @Route("/showPost", name="show_post")
+     * @Route("/showPost/{id}", name="show_post")
+     * @Template("@App/Post/show_post.html.twig")
      */
-    public function showPostAction()
+    public function showPostAction($id)
     {
-        return $this->render('AppBundle:Post:show_post.html.twig', array(// ...
-        ));
+        $post = $this
+            ->getDoctrine()
+            ->getEntityManager()
+            ->getRepository('AppBundle:Post')
+            ->find($id);
+
+        return
+            [
+                "post" => $post
+            ];
     }
 
     /**
-     * @Route("/showAllPosts")
+     * @Route("/showAllPosts", name="all_posts")
+     * @Template("@App/Post/show_all_posts.html.twig")
      */
     public function showAllPostsAction()
     {
-        return $this->render('AppBundle:Post:show_all_posts.html.twig', array(// ...
-        ));
+        $posts = $this
+            ->getDoctrine()
+            ->getEntityManager()
+            ->getRepository('AppBundle:Post')
+            ->findAll();
+
+        return ["posts" => $posts];
     }
 
     /**

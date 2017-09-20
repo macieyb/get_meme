@@ -3,5 +3,20 @@
 {% block title %}AppBundle:Post:showPost{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Post:showPost page</h1>
+    <h1>Welcome to the Post:showPost page</h1>
+    <div>
+        <h2>{{ post.title }}</h2>
+        <img src="../{{ post.pathToFileFromWeb }}">
+        <p>Dodane przez: {{ post.user.username }}</p>
+        <p>Data dodania: {{ post.createdAt|date('Y-m-d') }}</p>
+        <p>Kategoria: {{ post.category.categoryName }}</p>
+        <p>Liczba lajków: {{ post.upvotes }}</p>
+        <p>Komentarze: {{ post.comments | length }}</p>
+    </div>
+
+    <div id="comment_add">
+        {{ render(controller(
+        'AppBundle:Comment:addComment',  { 'id': post.id }
+        )) }}
+    </div>
 {% endblock %}
