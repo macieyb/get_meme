@@ -1,22 +1,33 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Post:showPost{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block body %}
-    <h1>Welcome to the Post:showPost page</h1>
-    <div>
-        <h2>{{ post.title }}</h2>
-        <img src="../{{ post.pathToFileFromWeb }}">
-        <p>Dodane przez: {{ post.user.username }}</p>
-        <p>Data dodania: {{ post.createdAt|date('Y-m-d') }}</p>
-        <p>Kategoria: {{ post.category.categoryName }}</p>
-        <p>Liczba lajków: {{ post.upvotes }}</p>
-        <p>Komentarze: {{ post.comments | length }}</p>
+    </br>
+    <div class="card text-center" style="max-width: 500px">
+        <img class="card-img-top" src="../{{ post.pathToFileFromWeb }}" alt="{{ post.title }}">
+        <div class="card-body">
+            <h2 class="card-title">{{ post.title }}</h2>
+            <p class="card-text">Category: {{ post.category.categoryName }}</p>
+            <p class="card-text">Comments: {{ post.comments | length }}</p>
+            <p class="card-text">Upvotes: {{ post.upvotes }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            Posted on {{ post.createdAt|date('F j, Y') }} by
+            <a href="{{ path('user_by_id', {"id":post.user.id}) }}">{{ post.user.username }}</a>
+        </div>
     </div>
+    </br>
 
     <div id="comment_add">
         {{ render(controller(
         'AppBundle:Comment:addComment',  { 'id': post.id }
+        )) }}
+    </div>
+    <hr>
+    <div id="comments">
+        {{ render(controller(
+        'AppBundle:Comment:showAllComments',  { 'id': post.id }
         )) }}
     </div>
 {% endblock %}

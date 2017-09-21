@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use AppBundle\Entity\Post;
 use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -25,15 +27,12 @@ class PostController extends Controller
             // $file stores the uploaded file
             /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
             $file = $post->getFilePath();
+            $text = $post->getImageText();
+            $uniqueId = uniqid();
+            $this->createMem($file->getPathname(), $file->guessExtension(), $uniqueId, $text);
 
             // Generate a unique name for the file before saving it
-            $fileName = uniqid() . '.' . $file->guessExtension();
-
-            // Move the file to the directory where brochures are stored
-            $file->move(
-                $this->getParameter('uploads') . "/user_" . $this->getUser()->getId(),
-                $fileName
-            );
+            $fileName = $uniqueId . "." . $file->guessExtension();
 
             // Update the 'post' property to store the img file name
             // instead of its contents
@@ -44,6 +43,11 @@ class PostController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
+
+            return $this->redirectToRoute("all_posts",
+                [
+
+                ]);
         }
 
         return
@@ -78,9 +82,8 @@ class PostController extends Controller
     {
         $posts = $this
             ->getDoctrine()
-            ->getEntityManager()
             ->getRepository('AppBundle:Post')
-            ->findAll();
+            ->findAllSortedByDate();
 
         return ["posts" => $posts];
     }
@@ -103,4 +106,59 @@ class PostController extends Controller
         ));
     }
 
+    public function createMem($filename, $extension, $uniqueId, $text)
+    {
+
+        if (!in_array($extension, ['jpeg', 'png'])) {
+            throw new \Exception("Not recognized extension");
+        }
+
+        $width = 500;
+        $height = 500;
+        $dest = "uploads/user_" . $this->getUser()->getId() . "/" . $uniqueId;
+
+        $fs = new Filesystem();
+        $fs->mkdir("uploads/user_" . $this->getUser()->getId());
+
+        // Get new dimensions
+        list($width_orig, $height_orig) = getimagesize($filename);
+
+        $ratio_orig = $width_orig / $height_orig;
+
+        if ($width / $height > $ratio_orig) {
+            $width = $height * $ratio_orig;
+        } else {
+            $height = $width / $ratio_orig;
+        }
+
+        $pathToFont = $this->getParameter('kernel.root_dir') . "/Resources/private/arial.ttf";
+
+
+        // Resample
+        $image_p = imagecreatetruecolor($width, $height);
+        if ($extension === "jpeg") {
+            $image = imagecreatefromjpeg($filename);
+            imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+
+            if ($text != null) {
+                $black = imagecolorallocate($image_p, 0, 0, 0);
+                $white = imagecolorallocate($image_p, 255, 255, 255);
+                imagettftext($image_p, 40, 0, 22, 52, $black, $pathToFont, $text);
+                imagettftext($image_p, 40, 0, 20, 50, $white, $pathToFont, $text);
+            }
+            imagejpeg($image_p, $dest . '.jpeg', 100);
+        } else {
+            $image = imagecreatefrompng($filename);
+            imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+
+            if ($text != null) {
+                $black = imagecolorallocate($image_p, 0, 0, 0);
+                $white = imagecolorallocate($image_p, 255, 255, 255);
+                imagettftext($image_p, 40, 0, 22, 52, $black, $pathToFont, $text);
+                imagettftext($image_p, 40, 0, 20, 50, $white, $pathToFont, $text);
+            }
+            imagepng($image_p, $dest . '.png', 8);
+        }
+        return $image_p;
+    }
 }

@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Post
@@ -81,6 +82,14 @@ class Post
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image_text", nullable=true)
+     * @Assert\Length(max=15)
+     */
+    private $imageText = null;
 
     /**
      * Get id
@@ -291,5 +300,28 @@ class Post
      */
     public function getPathToFileFromWeb() {
         return "uploads/user_".$this->getUser()->getId()."/".$this->getFilePath();
+    }
+
+    /**
+     * Set imageText
+     *
+     * @param string $imageText
+     * @return Post
+     */
+    public function setImageText($imageText)
+    {
+        $this->imageText = $imageText;
+
+        return $this;
+    }
+
+    /**
+     * Get imageText
+     *
+     * @return string 
+     */
+    public function getImageText()
+    {
+        return $this->imageText;
     }
 }

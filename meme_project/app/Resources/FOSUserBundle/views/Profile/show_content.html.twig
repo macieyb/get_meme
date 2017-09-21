@@ -1,10 +1,38 @@
 {% trans_default_domain 'FOSUserBundle' %}
-
-<div class="fos_user_user_show">
-    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
-    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-    <p>Opis użytkownika: {{ user.description }}</p>
-    <div>
-        <img src="http://bit.ly/2yo3zXg">
+{% block body %}
+    </br>
+    <div class="card text-center">
+        <div class="card-header">
+            <h3>{{ user.username }}</h3>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">About</h5>
+            <p class="card-text">{{ user.description }}</p>
+            <p class="card-text">Memes posted: {{ user.posts|length }}</p>
+            <p class="card-text">Meme Comments: {{ user.comments|length }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            Member since {{ user.registeredAt|date('F j, Y') }}
+        </div>
     </div>
-</div>
+    </br>
+    <h3 class="text-center">Added memes</h3>
+    </br>
+    {% for post in user.posts %}
+        </br>
+        <div class="card text-center" style="max-width: 500px">
+            <img class="card-img-top" src="../../../../{{ post.pathToFileFromWeb }}" alt="{{ post.title }}">
+            <div class="card-body">
+                <h2 class="card-title">{{ post.title }}</h2>
+                <p class="card-text">Comments: {{ post.comments | length }}</p>
+                <p class="card-text">Upvotes: {{ post.upvotes }}</p>
+                <p class="card-text">Category: {{ post.category.categoryName }}</p>
+                <a href="{{ path('show_post', {"id":post.id}) }}" class="btn btn-primary">Get inside! &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+                Posted on {{ post.createdAt|date('F j, Y') }}
+            </div>
+        </div>
+        </br>
+    {% endfor %}
+{% endblock %}

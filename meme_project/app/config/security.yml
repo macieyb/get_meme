@@ -17,7 +17,8 @@ security:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
 
-            logout:       true
+            logout:
+                target: /showAllPosts
             anonymous:    true
 
     access_control:
@@ -26,3 +27,4 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/showPost, role: ROLE_USER }
+        - { path: ^/addPost, role: ROLE_USER }

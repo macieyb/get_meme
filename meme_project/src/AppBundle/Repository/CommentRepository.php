@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Post;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +13,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
+    public function findAllAssignedToPostSortedByDate(Post $post)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.post = :id')
+            ->orderBy('c.addedAt','ASC')
+            ->setParameter('id',$post->getId())
+            ->getQuery()->getResult();
+
+    }
 }

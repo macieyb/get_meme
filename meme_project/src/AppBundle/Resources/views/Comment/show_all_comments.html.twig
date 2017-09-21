@@ -1,7 +1,15 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}AppBundle:Comment:showAllComments{% endblock %}
-
 {% block body %}
-<h1>Welcome to the Comment:showAllComments page</h1>
+    {% for comment in comments %}
+        <div class="card">
+            <div class="card-header text-muted">
+                <small>
+                    <a href="{{ path('user_by_id', {"id":comment.user.id}) }}">{{ comment.user.username }}</a>
+                    commented on {{ comment.addedAt|date("M j, Y") }}
+                </small>
+            </div>
+            <div class="card-body card-text">
+                <p>{{ comment.content }}</p>
+            </div>
+        </div></br>
+    {% endfor %}
 {% endblock %}

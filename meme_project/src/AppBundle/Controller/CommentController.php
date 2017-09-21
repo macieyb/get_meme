@@ -21,7 +21,7 @@ class CommentController extends Controller
 
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment, [
-            'action' => $this->generateUrl('show_post', ['id' => $post->getId()]),
+            'action' => $this->generateUrl('add_comment', ['id' => $post->getId()]),
         ]);
         $form->handleRequest($request);
 
@@ -34,6 +34,11 @@ class CommentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
+
+            return $this->redirectToRoute("show_post",
+                [
+                    'id' => $post->getId()
+                ]);
         }
 
         return
@@ -52,12 +57,21 @@ class CommentController extends Controller
     }
 
     /**
-     * @Route("/showAllComments")
+     * @Route("/showAllCommentsToPostWithId/{id}", name="show_all_comments")
+     * @Template("@App/Comment/show_all_comments.html.twig")
      */
-    public function showAllCommentsAction()
+    public function showAllCommentsAction(Post $post)
     {
-        return $this->render('AppBundle:Comment:show_all_comments.html.twig', array(// ...
-        ));
+        $comments = $this
+            ->getDoctrine()
+            ->getRepository('AppBundle:Comment')
+            ->findAllAssignedToPostSortedByDate($post);
+
+        return
+            [
+                "comments" => $comments,
+                "id" => $post->getId()
+            ];
     }
 
     /**

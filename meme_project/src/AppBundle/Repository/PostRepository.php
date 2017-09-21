@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class PostRepository extends EntityRepository
 {
+    public function findAllSortedByDate()
+    {
+        return $this->findBy([], ['createdAt' => 'ASC']);
+    }
 }

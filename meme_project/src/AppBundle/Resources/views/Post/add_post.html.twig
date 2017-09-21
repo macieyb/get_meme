@@ -1,10 +1,14 @@
 {% extends "::base.html.twig" %}
-
-{% block title %}AppBundle:Post:addPost{% endblock %}
+{% block title %}Create meme!{% endblock %}
+{% block header %}
+    <h1 class="my-4">Create your own meme.
+        </br>
+        <small>Just add your file and some text!</small>
+    </h1>
+{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Post:addPost page</h1>
-    {{ form_start(form) }}
-    {{ form_row(form.filePath) }}
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+        {{ form_row(form.filePath) }}
+        {{ form_end(form) }}
 {% endblock %}
