@@ -50,7 +50,7 @@ class Post
 
     /**
      * @var string
-     *
+     * @Assert\Length(max=20)
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
@@ -87,7 +87,7 @@ class Post
      * @var string
      *
      * @ORM\Column(name="image_text", nullable=true)
-     * @Assert\Length(max=15)
+     * @Assert\Length(max=20)
      */
     private $imageText = null;
 

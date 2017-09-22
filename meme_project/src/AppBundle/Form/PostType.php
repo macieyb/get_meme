@@ -17,22 +17,33 @@ class PostType extends AbstractType
             ->add('imageText', TextType::class,
                 [
                     'label' => 'Add meme text',
-                    'required' => false
+                    'required' => false,
+                    'attr' =>
+                        [
+                            'placeholder' => 'Your meme text here...'
+                        ]
                 ])
             ->add('filePath', FileType::class,
                 [
-                    'label' => 'Browse file',
+                    'label' => '(Suggested minimum image width - 500px)',
                     'attr' =>
                         [
                             'class' => 'btn btn-info btn-block'
                         ]
                 ])
-            ->add('title', null, ['label' => 'Title'])
+            ->add('title', null,
+                [
+                    'label' => 'Title',
+                    'attr' =>
+                        [
+                            'placeholder' => 'Your meme title here...'
+                        ]
+                ])
             ->add('category', 'entity',
                 [
                     'class' => 'AppBundle\Entity\Category',
                     'choice_label' => 'categoryName',
-                    'label' => 'Choose Category: '
+                    'label' => 'Choose Category'
                 ]
             )
             ->add('save', 'submit',

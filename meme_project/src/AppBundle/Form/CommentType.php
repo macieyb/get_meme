@@ -19,7 +19,7 @@ class CommentType extends AbstractType
             ->add('content', TextareaType::class,
                 [
                     'label' => 'Your comment',
-                    'attr' => ['placeholder' => 'Type some funny comment here...']
+                    'attr' => ['placeholder' => 'Some funny comment here...']
                     ]);
     }
 

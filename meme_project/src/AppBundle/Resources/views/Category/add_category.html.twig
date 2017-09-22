@@ -1,7 +1,20 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Category:addCategory{% endblock %}
+{% block title %}Add new Category{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Category:addCategory page</h1>
+    <div>
+        {{ form_start(form) }}
+        {{ form_row(form.categoryName) }}
+        <div>
+            <input type="submit" value="Add category" class="btn btn-info btn-block"/>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <hr>
+    <div id="categories">
+        {{ render(controller(
+        'AppBundle:Category:showAllCategories'
+        )) }}
+    </div>
 {% endblock %}

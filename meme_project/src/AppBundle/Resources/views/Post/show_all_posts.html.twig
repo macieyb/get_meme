@@ -12,7 +12,7 @@
                 <p class="card-text">Comments: {{ post.comments | length }}</p>
                 <p class="card-text">Upvotes: {{ post.upvotes }}</p>
                 <p class="card-text">Category: {{ post.category.categoryName }}</p>
-                <a href="{{ path('show_post', {"id":post.id}) }}" class="btn btn-primary">Get inside! &rarr;</a>
+                <a href="{{ path('show_post', {"id":post.id}) }}" class="btn btn-primary">More here! &rarr;</a>
             </div>
             <div class="card-footer text-muted">
                 Posted on {{ post.createdAt|date('F j, Y') }} by

@@ -3,8 +3,7 @@
         <div class="card">
             <div class="card-header text-muted">
                 <small>
-                    <a href="{{ path('user_by_id', {"id":comment.user.id}) }}">{{ comment.user.username }}</a>
-                    commented on {{ comment.addedAt|date("M j, Y") }}
+                    {{ comment.addedAt|date("M j, Y") }} <a href="{{ path('user_by_id', {"id":comment.user.id}) }}">{{ comment.user.username }}</a>
                 </small>
             </div>
             <div class="card-body card-text">

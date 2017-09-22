@@ -28,3 +28,5 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/showPost, role: ROLE_USER }
         - { path: ^/addPost, role: ROLE_USER }
+        - { path: ^/addCategory, role: ROLE_ADMIN }
+        - { path: ^/showAllCategories, role: ROLE_ADMIN }
