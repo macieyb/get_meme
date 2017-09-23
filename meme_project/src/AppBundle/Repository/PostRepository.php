@@ -14,6 +14,6 @@ class PostRepository extends EntityRepository
 {
     public function findAllSortedByDate()
     {
-        return $this->findBy([], ['createdAt' => 'ASC']);
+        return $this->findBy([], ['createdAt' => 'DESC']);
     }
 }

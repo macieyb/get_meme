@@ -17,9 +17,8 @@ class CommentRepository extends EntityRepository
     {
         return $this->createQueryBuilder('c')
             ->where('c.post = :id')
-            ->orderBy('c.addedAt','ASC')
-            ->setParameter('id',$post->getId())
+            ->orderBy('c.addedAt', 'DESC')
+            ->setParameter('id', $post->getId())
             ->getQuery()->getResult();
-
     }
 }
