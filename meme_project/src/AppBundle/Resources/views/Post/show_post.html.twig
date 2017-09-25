@@ -5,7 +5,7 @@
 {% block body %}
     </br>
     <div class="card text-center" style="max-width: 500px">
-        <img class="card-img-top" src="../{{ post.pathToFileFromWeb }}" alt="{{ post.title }}">
+        <img class="card-img-top" src="{{ asset(post.pathToFileFromWeb) }}" alt="{{ post.title }}">
         <div class="card-body">
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">Category: {{ post.category.categoryName }}</p>
