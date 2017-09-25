@@ -143,8 +143,8 @@ class PostController extends Controller
             if ($text != null) {
                 $black = imagecolorallocate($image_p, 0, 0, 0);
                 $white = imagecolorallocate($image_p, 255, 255, 255);
-                imagettftext($image_p, 20, 0, 22, 52, $black, $pathToFont, $text);
-                imagettftext($image_p, 20, 0, 20, 50, $white, $pathToFont, $text);
+                imagettftext($image_p, 30, 0, 22, 52, $black, $pathToFont, $text);
+                imagettftext($image_p, 30, 0, 20, 50, $white, $pathToFont, $text);
             }
             imagejpeg($image_p, $dest . '.jpeg', 100);
         } else {
@@ -154,8 +154,8 @@ class PostController extends Controller
             if ($text != null) {
                 $black = imagecolorallocate($image_p, 0, 0, 0);
                 $white = imagecolorallocate($image_p, 255, 255, 255);
-                imagettftext($image_p, 20, 0, 22, 52, $black, $pathToFont, $text);
-                imagettftext($image_p, 20, 0, 20, 50, $white, $pathToFont, $text);
+                imagettftext($image_p, 30, 0, 22, 52, $black, $pathToFont, $text);
+                imagettftext($image_p, 30, 0, 20, 50, $white, $pathToFont, $text);
             }
             imagepng($image_p, $dest . '.png', 8);
         }

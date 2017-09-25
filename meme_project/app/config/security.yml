@@ -30,3 +30,10 @@ security:
         - { path: ^/addPost, role: ROLE_USER }
         - { path: ^/addCategory, role: ROLE_ADMIN }
         - { path: ^/showAllCategories, role: ROLE_ADMIN }
+        - { path: "^/profile/view/{id}", role: ROLE_USER }
+        - { path: "^/addCommentToPostWithId/{id}", role: ROLE_USER }
+        - { path: "^/showAllCommentsToPostWithId/{id}", role: ROLE_USER }
+        - { path: "^/showPost/{id}", role: ROLE_USER }
+        - { path: ^/profile/, role: ROLE_USER }
+        - { path: ^/profile/edit, role: ROLE_USER }
+        - { path: ^/profile/change-password, role: ROLE_USER }
